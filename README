@@ -1,0 +1,36 @@
+Reason for making.
+
+I lost the major card on my account, so when it got replaced I couldn't do netbanking exports of transactions any more.
+
+So when it came to tax time, I was pretty screwed.
+
+I can download pdf statements though, but don't fancy typing them all into skrooge, my accounting program.
+
+cba2csv to the rescue.
+
+-----
+
+To use on ubuntu:
+
+sudo apt-get install libpodofo-dev
+
+copy one of your bank statments into the dir .. call it test.pdf
+
+./run.sh
+
+That will compile and run the converter.
+
+You should now have a nice test.csv file in the dir.
+
+----
+
+to run on another pdf
+
+./cba2csv /path/to/statement.pdf
+
+----
+
+to run on a directory of pdfs:
+
+cp cba2csv /usr/bin/
+find /path/to/statments -iname '*.pdf' -exec cba2csv {} \; -print
