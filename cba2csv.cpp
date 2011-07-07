@@ -53,12 +53,12 @@ public:
         pdf2txt::pdf2txt(filename, data);
         iter = data.begin();
         end = data.end();
-        finddate("Statement begins", start_day, start_month, start_year);
-        finddate("Statement ends", end_day, end_month, end_year);
+        findDate("Statement begins", start_day, start_month, start_year);
+        findDate("Statement ends", end_day, end_month, end_year);
         while (iter != end)
-            if (findstatementblock())
+            if (findStatementBlock())
                 while (iter != end)
-                    if (!outputstatementline())
+                    if (!outputStatementLine())
                         break;
     }
 
@@ -189,5 +189,8 @@ int main ( int argc, char *argv[] ) {
     else
         filename += ".csv";
     ofstream output(filename.c_str());
+    // Output the csv header
+    output << "date,comment,amount" << endl;
+    // Output the contents
     Parser parser(argv[1], output);
 }
