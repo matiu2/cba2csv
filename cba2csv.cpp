@@ -42,6 +42,7 @@ private:
     unsigned short end_year;
     vector<string> data;
     ostream& output;
+    static const bool flipSign; // If true output is negative what the statement says;
 
 public:
     /**
@@ -166,10 +167,17 @@ private:
         int dollars;
         char dot;
         unsigned short cents;
+        char sign;
         string sAmount = *iter++;
         boost::erase_all(sAmount, ",");
         stringstream amount(sAmount);
-        amount >> skipws >> dollars >> dot >> cents;
+        amount >> skipws >> dollars >> dot >> cents >> sign;
+        // Check the sign
+        if (!(amount.rdstate() & stringstream::eofbit) && (sign == '-')) // We just read a minus sign
+            dollars = -dollars;
+        // Are we flipping the sign ?
+        if (flipSign)
+            dollars = -dollars;
         // Skip over the transaction ID
         ++iter;
         // Output a line of CSV
@@ -180,6 +188,8 @@ private:
     }
 
 };
+
+const bool Parser::flipSign = true;
 
 int main ( int argc, char *argv[] ) {
     // Get the output filename
