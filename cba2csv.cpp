@@ -23,6 +23,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <fstream>
+#include <boost/algorithm/string/erase.hpp>
 
 using namespace std;
 
@@ -165,7 +166,9 @@ private:
         int dollars;
         char dot;
         unsigned short cents;
-        stringstream amount(*iter++);
+        string sAmount = *iter++;
+        boost::erase_all(sAmount, ",");
+        stringstream amount(sAmount);
         amount >> skipws >> dollars >> dot >> cents;
         // Skip over the transaction ID
         ++iter;
